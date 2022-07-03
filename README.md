@@ -12,6 +12,18 @@ submit corrections.
 
 Should be fairly straightforward from the docstrings, but check `example.py` if you need it. :)
 
+A quick note on calibration: The best way would be to first connect the the ADC to a ground
+referance, sample that, then to a vref and sample that. Then use those numbers for constructing the
+`CalibratedADC` class.
+
+Baring that, if you just need to use one ADC on the Pico, I've gotten fairly good results by using
+two of the extra ADCs to gather the calibration data using `CalibratedADC.calibrate_adc`.
+The ADCs are then connected to the ground plane and to `3v3` on pin 36 respectively.
+`ADC_VREF` might be a better choice.
+
+The reasoning is that since it's the same multi-channel ADC that does the measurements, it's likely
+seeing the same noise and bias on all the ADCs.
+
 ## ADC Precision
 
 The [datasheet](https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf) says the ADCs are 12bit,
